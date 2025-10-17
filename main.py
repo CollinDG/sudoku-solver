@@ -1,17 +1,17 @@
 import copy
 
 HARD_PUZZLE = [
-    [3,0,0, 0,5,0, 0,0,7],
-    [8,0,0, 6,0,0, 0,5,0],
-    [0,0,0, 0,4,7, 0,0,0],
+    [0,0,1, 0,6,2, 0,0,0],
+    [0,0,0, 3,0,0, 0,0,0],
+    [4,0,0, 8,1,0, 0,0,0],
 
-    [0,9,0, 4,0,1, 0,0,6],
-    [0,1,0, 3,0,0, 0,2,0],
-    [0,4,0, 0,0,0, 0,7,0],
+    [2,0,0, 0,0,3, 7,0,0],
+    [7,3,0, 1,2,0, 5,9,0],
+    [6,0,0, 4,9,0, 1,0,0],
 
-    [2,0,0, 1,0,0, 0,6,0],
-    [0,3,0, 5,0,0, 9,0,0],
-    [0,0,0, 0,0,0, 0,0,0],
+    [1,0,0, 0,0,5, 6,0,3],
+    [0,0,0, 0,0,8, 0,0,0],
+    [5,0,0, 9,3,0, 0,0,0],
 ]
 
 def solve_deterministic(puzzle, options, row_used_nums, col_used_nums, box_used_nums):
@@ -91,7 +91,11 @@ def solve(puzzle, tried_values={}):
 
 if __name__ == "__main__":
     solved_puzzle = solve(HARD_PUZZLE)
-    for line in solved_puzzle:
+    print("\nSolved puzzle:\n")
+    for i, line in enumerate(solved_puzzle):
         for start in range(0,9,3):
-            print(' '.join([str(line[i]) for i in range(start, start+3)]), end="  ")
-        print()
+            print('  '.join([str(line[i]) for i in range(start, start+3)]), end="   ")
+        if (i+1) % 3 == 0:
+            print("\n")
+        else:
+            print()

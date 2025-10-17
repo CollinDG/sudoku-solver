@@ -23,17 +23,17 @@ def solve_deterministic(puzzle, options, row_used_nums, col_used_nums, box_used_
             for j in range(9):
                 box_num = (i//3)*3 + j//3
                 if puzzle[i][j] == 0:
-                    options[i][j] = [n for n in range(1, 10) if n not in row_used_nums[i] | col_used_nums[j] | box_used_nums[box_num]]
-                    match len(options[i][j]):
+                    options[i,j] = [n for n in range(1, 10) if n not in row_used_nums[i] | col_used_nums[j] | box_used_nums[box_num]]
+                    match len(options[i,j]):
                         case 0:
                             raise ValueError("Sudoku is not solvable")
                         case 1:
-                            value = options[i][j][0]
+                            value = options[i,j][0]
                             puzzle[i][j] = value
                             row_used_nums[i].add(value)
                             col_used_nums[j].add(value)
                             box_used_nums[box_num].add(value)
-                            options[i][j] = []
+                            options[i,j] = []
                             deterministic_value_found = True
                 else:
                     nonzero_count += 1
@@ -45,7 +45,7 @@ def solve_deterministic(puzzle, options, row_used_nums, col_used_nums, box_used_
 
 
 def solve(puzzle, tried_values={}):
-    options = [[set() for _ in range(9)] for _ in range(9)]
+    options = {(i,j): list() for i in range(9) for j in range(9)}
     row_used_nums = [{n for n in row if n != 0} for row in puzzle]
     col_used_nums = [{row[i] for row in puzzle if row[i] != 0} for i in range(9)]
     box_used_nums = [set() for _ in range(9)]
@@ -72,12 +72,12 @@ def solve(puzzle, tried_values={}):
                         tried_values[pos] = set()
 
                     box_num = (i//3)*3 + j//3
-                    options[i][j] = [n for n in range(1, 10) 
+                    options[i,j] = [n for n in range(1, 10) 
                                     if n not in row_used_nums[i] | col_used_nums[j] | box_used_nums[box_num]
                                     and n not in tried_values[pos]]
                     
-                    if len(options[i][j]) == num_options:
-                        for option in options[i][j]:
+                    if len(options[i,j]) == num_options:
+                        for option in options[i,j]:
                             tried_values[pos].add(option)
                             new_puzzle = copy.deepcopy(puzzle)
                             new_puzzle[i][j] = option
